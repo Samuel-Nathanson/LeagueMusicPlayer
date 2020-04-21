@@ -8,3 +8,6 @@ Python 3.7 : https://www.python.org/downloads/
 
 Activate Conda Environment With Required Dependencies:
 conda env create -f environment.yml
+
+Update Conda Environment when New Dependency is added
+conda env update --file environment.yml
