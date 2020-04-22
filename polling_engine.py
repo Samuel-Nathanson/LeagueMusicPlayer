@@ -8,13 +8,13 @@ host_port = "https://127.0.0.1:2999/"
 get_summoner_name_endpoint = "liveclientdata/activeplayername"
 get_active_player_list_endpoint = "liveclientdata/playerlist"
 
-def check_ingame():
+def check_in_game():
     
     # Make request to webserver
     try:
         response = requests.get(host_port + get_summoner_name_endpoint, verify = False)
         if response.status_code == 200:
-            user_summonerName = response.json()
+            summoner_name = response.json()
         elif response.status_code == 404:
             print("Response returned HTTP 404 - In loading screen") # TODO potentially try again sooner or see if other endpoints are available
             return
@@ -33,7 +33,7 @@ def check_ingame():
             print(json.dumps(response.json()))
         else:
             for player in response.json():
-                if player["summonerName"] == user_summonerName:
+                if player["summonerName"] == summoner_name:
                     print(player["championName"])
     except requests.exceptions.RequestException as e:
         print(e) # This should probably never happen
@@ -42,7 +42,7 @@ def check_ingame():
 # Poll server on some interval
 def polling_loop(interval):
     while True:
-        check_ingame()
+        check_in_game()
         time.sleep(interval)
 
 # Supress SSL #TODO enable SSL
